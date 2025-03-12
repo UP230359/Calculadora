@@ -116,6 +116,7 @@ class Calculadora:
             self.label_shift.config(text="Shift")
         else:
             self.label_shift.config(text="")
+print("007")
 
 if __name__ == "__main__":
     root = tk.Tk()
