@@ -1,5 +1,7 @@
+# CalculadoraTNK-C.py
 import tkinter as tk
 from tkinter import messagebox
+from index import evaluate_postfix
 
 class Calculadora:
     def __init__(self, root):
@@ -70,14 +72,24 @@ class Calculadora:
 
     def on_click(self, button_text):
         current_input = self.entry_input.get()
+        function_map = {
+            'sen': 'sin',
+            'cos': 'cos',
+            'tan': 'tan',
+            'ln': 'ln',
+            'log': 'log'
+        }
 
         if button_text == "=":
             try:
                 expression = self.entry_input.get()
-                result = round((3.1416 / 2), 4)
-                self.entry_input.set(result)
-            except Exception:
-                messagebox.showerror("Error", "Expresión inválida")
+                result = evaluate_postfix(expression)
+                if result is not None:
+                    self.entry_input.set(round(result, 4))
+                else:
+                    messagebox.showerror("Error", "Expresión inválida")
+            except Exception as e:
+                messagebox.showerror("Error", f"Expresión inválida: {e}")
 
         elif button_text == "C":
             self.entry_input.set("")
@@ -86,6 +98,10 @@ class Calculadora:
         elif button_text == "Shift":
             self.shift_mode = not self.shift_mode
             self.actualizar_label_shift()
+        elif button_text == "e^x":
+            self.entry_input.set(current_input + "aln(")
+        elif button_text == "10^x":
+            self.entry_input.set(current_input + "alog(")
         elif button_text in ['sen', 'cos', 'tan', 'ln', 'log', '√']:
             if self.shift_mode:
                 if button_text == "sen":
@@ -95,15 +111,19 @@ class Calculadora:
                 elif button_text == "tan":
                     self.entry_input.set(current_input + "atan(")
                 elif button_text == "ln":
-                    self.entry_input.set(current_input + "exp(")
+                    self.entry_input.set(current_input + "aln(")
                 elif button_text == "log":
-                    self.entry_input.set(current_input + "10**(")
+                    self.entry_input.set(current_input + "alog(")
                 elif button_text == "√":
                     self.entry_input.set(current_input + "^(1/2)")
                 self.shift_mode = False
                 self.actualizar_label_shift()
             else:
-                self.entry_input.set(current_input + button_text + "(")
+                if button_text == '√':
+                    self.entry_input.set(current_input + "√(")
+                else:
+                    func = function_map.get(button_text, button_text)
+                    self.entry_input.set(current_input + func + "(")
         elif button_text in ['π', 'e']:
             self.entry_input.set(current_input + button_text)
         elif button_text in ['(', ')']:
@@ -112,10 +132,7 @@ class Calculadora:
             self.entry_input.set(current_input + button_text)
 
     def actualizar_label_shift(self):
-        if self.shift_mode:
-            self.label_shift.config(text="Shift")
-        else:
-            self.label_shift.config(text="")
+        self.label_shift.config(text="Shift" if self.shift_mode else "")
 
 if __name__ == "__main__":
     root = tk.Tk()
