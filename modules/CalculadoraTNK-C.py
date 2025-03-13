@@ -10,7 +10,9 @@ class Calculadora:
         self.root.iconbitmap("./img/ico.ico")
         self.root.title("Calculadora")
 
-        self.entry_input = tk.StringVar()
+        self.entry_input1 = tk.StringVar()
+        self.entry_input2 = tk.StringVar()
+        self.entry_input3 = tk.StringVar()
         self.shift_mode = False
 
         self.frameDisplay = tk.Frame(self.root, bg="#cccdcd")
@@ -24,10 +26,19 @@ class Calculadora:
 
     def create_Display(self):
         self.label_shift = tk.Label(self.frameDisplay, text="", font=("Arial", 10), fg="#1c1c1c", bg="#cccdcd")
-        self.label_shift.grid(row=0, column=0, sticky="nw", padx=10, pady=5)
+        self.label_shift.grid(row=3, column=0, sticky="nw", padx=10, pady=5)
 
-        entry = tk.Entry(self.frameDisplay, textvariable=self.entry_input, font=("Arial", 20), justify="right", bg="#cccdcd")
-        entry.grid(row=1, column=0, columnspan=4, sticky="we", padx=10, pady=10)
+        entry = tk.Entry(self.frameDisplay, textvariable=self.entry_input1, font=("Arial", 20), justify="right", bg="#cccdcd")
+        entry.grid(row=4, column=0, columnspan=4, sticky="we", padx=10, pady=10)
+
+        #Entry postfix
+        entry = tk.Entry(self.frameDisplay, textvariable=self.entry_input2, font=("Arial", 20), justify="left", width=10, bg="#cccdcd")
+        entry.grid(row=1, column=0, sticky="we", padx=5, pady=10)
+
+        #Entry infix
+        entry = tk.Entry(self.frameDisplay, textvariable=self.entry_input3, font=("Arial", 20), justify="right", width=10, bg="#cccdcd")
+        entry.grid(row=1, column=1, sticky="we", padx=5, pady=10)
+
 
     def create_Teclado(self):
         buttons_funciones = [
@@ -71,7 +82,7 @@ class Calculadora:
                     button.pack(side="bottom", fill="both", expand=True)
 
     def on_click(self, button_text):
-        current_input = self.entry_input.get()
+        current_input = self.entry_input1.get()
         function_map = {
             'sen': 'sin',
             'cos': 'cos',
@@ -82,54 +93,54 @@ class Calculadora:
 
         if button_text == "=":
             try:
-                expression = self.entry_input.get()
+                expression = self.entry_input1.get()
                 result = evaluate_postfix(expression)
                 if result is not None:
-                    self.entry_input.set(round(result, 4))
+                    self.entry_input1.set(round(result, 4))
                 else:
                     messagebox.showerror("Error", "Expresión inválida")
             except Exception as e:
                 messagebox.showerror("Error", f"Expresión inválida: {e}")
 
         elif button_text == "C":
-            self.entry_input.set("")
+            self.entry_input1.set("")
         elif button_text == "←":
-            self.entry_input.set(current_input[:-1])
+            self.entry_input1.set(current_input[:-1])
         elif button_text == "Shift":
             self.shift_mode = not self.shift_mode
             self.actualizar_label_shift()
         elif button_text == "e^x":
-            self.entry_input.set(current_input + "aln(")
+            self.entry_input1.set(current_input + "aln(")
         elif button_text == "10^x":
-            self.entry_input.set(current_input + "alog(")
+            self.entry_input1.set(current_input + "alog(")
         elif button_text in ['sen', 'cos', 'tan', 'ln', 'log', '√']:
             if self.shift_mode:
                 if button_text == "sen":
-                    self.entry_input.set(current_input + "asin(")
+                    self.entry_input1.set(current_input + "asin(")
                 elif button_text == "cos":
-                    self.entry_input.set(current_input + "acos(")
+                    self.entry_input1.set(current_input + "acos(")
                 elif button_text == "tan":
-                    self.entry_input.set(current_input + "atan(")
+                    self.entry_input1.set(current_input + "atan(")
                 elif button_text == "ln":
-                    self.entry_input.set(current_input + "aln(")
+                    self.entry_input1.set(current_input + "aln(")
                 elif button_text == "log":
-                    self.entry_input.set(current_input + "alog(")
+                    self.entry_input1.set(current_input + "alog(")
                 elif button_text == "√":
-                    self.entry_input.set(current_input + "^(1/2)")
+                    self.entry_input1.set(current_input + "^(1/2)")
                 self.shift_mode = False
                 self.actualizar_label_shift()
             else:
                 if button_text == '√':
-                    self.entry_input.set(current_input + "√(")
+                    self.entry_input1.set(current_input + "√(")
                 else:
                     func = function_map.get(button_text, button_text)
-                    self.entry_input.set(current_input + func + "(")
+                    self.entry_input1.set(current_input + func + "(")
         elif button_text in ['π', 'e']:
-            self.entry_input.set(current_input + button_text)
+            self.entry_input1.set(current_input + button_text)
         elif button_text in ['(', ')']:
-            self.entry_input.set(current_input + button_text)
+            self.entry_input1.set(current_input + button_text)
         else:
-            self.entry_input.set(current_input + button_text)
+            self.entry_input1.set(current_input + button_text)
 
     def actualizar_label_shift(self):
         self.label_shift.config(text="Shift" if self.shift_mode else "")
