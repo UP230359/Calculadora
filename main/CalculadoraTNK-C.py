@@ -30,18 +30,17 @@ class Calculadora:
     def create_Teclado(self):
         buttons_funciones = [
             ('sen', 'cos', 'tan', '^', '√'),
-            ('ln', 'log', 'e^x', '10^x', 'π')
+            ('ln', 'log', 'e', 'π', 'Shift')
         ]
         buttons_numeros_operadores = [
             ('7', '8', '9', '/', 'C'),
             ('4', '5', '6', '*', '←'),
-            ('1', '2', '3', '-', 'Shift'),
-            ('0', '.', '(', ')', '+'),
-            ('=')
+            ('1', '2', '3', '-', '+'),
+            ('0', '.', '(', ')', '='),
         ]
         inversas = [
-            'asin', 'acos', 'atan', '', '',
-            'exp', '10**', '', '', ''
+            'asin', 'acos', 'atan', '^2', '^(1/2)',
+            'e^x', '10^x', '', '', ''
         ]
 
         for i, row in enumerate(buttons_funciones):
@@ -95,9 +94,9 @@ class Calculadora:
                 elif button_text == "tan":
                     self.entry_input.set(current_input + "atan(")
                 elif button_text == "ln":
-                    self.entry_input.set(current_input + "exp(")
+                    self.entry_input.set(current_input + "e^")
                 elif button_text == "log":
-                    self.entry_input.set(current_input + "10**(")
+                    self.entry_input.set(current_input + "10^(")
                 elif button_text == "√":
                     self.entry_input.set(current_input + "^(1/2)")
                 self.shift_mode = False
