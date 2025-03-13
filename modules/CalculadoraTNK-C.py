@@ -28,6 +28,16 @@ class Calculadora:
         self.label_shift = tk.Label(self.frameDisplay, text="", font=("Arial", 10), fg="#1c1c1c", bg="#cccdcd")
         self.label_shift.grid(row=3, column=0, sticky="nw", padx=10, pady=5)
 
+
+        self.label_infix = tk.Label(self.frameDisplay, text="Infix", font=("Arial", 10), fg="#1c1c1c", bg="#cccdcd")
+        self.label_infix.grid(row=0, column=0, sticky="nw", padx=10, pady=5)
+
+        self.label_postfix = tk.Label(self.frameDisplay, text="Postfix", font=("Arial", 10), fg="#1c1c1c", bg="#cccdcd")
+        self.label_postfix.grid(row=0, column=1, sticky="nw", padx=10, pady=5)
+        
+
+
+
         entry = tk.Entry(self.frameDisplay, textvariable=self.entry_input1, font=("Arial", 20), justify="right", bg="#cccdcd")
         entry.grid(row=4, column=0, columnspan=4, sticky="we", padx=10, pady=10)
 
@@ -43,18 +53,17 @@ class Calculadora:
     def create_Teclado(self):
         buttons_funciones = [
             ('sen', 'cos', 'tan', '^', '√'),
-            ('ln', 'log', 'e^x', '10^x', 'π')
+            ('ln', 'log','e', 'π', 'Shift')
         ]
         buttons_numeros_operadores = [
             ('7', '8', '9', '/', 'C'),
             ('4', '5', '6', '*', '←'),
-            ('1', '2', '3', '-', 'Shift'),
-            ('0', '.', '(', ')', '+'),
-            ('=')
+            ('1', '2', '3', '-', '+'),
+            ('0', '.', '(', ')', '=')
         ]
         inversas = [
-            'asin', 'acos', 'atan', '', '',
-            'exp', '10**', '', '', ''
+            'asin', 'acos', 'atan', '^2', '^(1/2)',
+            'aln', 'alog', '', '', ''
         ]
 
         for i, row in enumerate(buttons_funciones):
@@ -113,7 +122,7 @@ class Calculadora:
             self.entry_input1.set(current_input + "aln(")
         elif button_text == "10^x":
             self.entry_input1.set(current_input + "alog(")
-        elif button_text in ['sen', 'cos', 'tan', 'ln', 'log', '√']:
+        elif button_text in ['sen', 'cos', 'tan', 'ln', 'log', '√', '^']:
             if self.shift_mode:
                 if button_text == "sen":
                     self.entry_input1.set(current_input + "asin(")
@@ -125,6 +134,8 @@ class Calculadora:
                     self.entry_input1.set(current_input + "aln(")
                 elif button_text == "log":
                     self.entry_input1.set(current_input + "alog(")
+                elif button_text == "^":
+                    self.entry_input1.set(current_input + "^2")
                 elif button_text == "√":
                     self.entry_input1.set(current_input + "^(1/2)")
                 self.shift_mode = False
