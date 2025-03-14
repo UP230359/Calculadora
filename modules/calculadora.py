@@ -1,4 +1,3 @@
-# CalculadoraTNK-C.py
 import tkinter as tk
 from tkinter import messagebox
 from index import evaluate_postfix
