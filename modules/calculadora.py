@@ -107,7 +107,7 @@ class Calculadora:
 
                 infixtopostfix = infix_to_postfix(expression)
 
-                result = evaluate_postfix(infixtopostfix)
+                result = evaluate_postfix(expression)
 
                 if result is not None:
                     self.entry_input3.set(round(result, 4))
@@ -115,7 +115,7 @@ class Calculadora:
                 else:
                     self.entry_input3.set("Error")
             except Exception as e:
-                messagebox.showerror("Error", f"Expresión inválida: {e}")
+                self.entry_input3.set("Error", f"Expresión inválida: {e}")
 
         elif button_text == "C":
             self.entry_input1.set("")
