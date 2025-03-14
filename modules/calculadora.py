@@ -1,6 +1,7 @@
 import tkinter as tk
-from tkinter import messagebox
+#from tkinter import messagebox
 from index import evaluate_postfix
+from infix_to_postfix import infix_to_postfix 
 
 class Calculadora:
     def __init__(self, root):
@@ -33,20 +34,21 @@ class Calculadora:
 
         self.label_postfix = tk.Label(self.frameDisplay, text="Postfix", font=("Arial", 10), fg="#1c1c1c", bg="#cccdcd")
         self.label_postfix.grid(row=2, column=0, sticky="nw", padx=10, pady=2)
-        
 
+        self.label_result = tk.Label(self.frameDisplay, text="Result", font=("Arial", 10), fg="#1c1c1c", bg="#cccdcd")
+        self.label_result.grid(row=5, column=0, sticky="nw", padx=10, pady=2)
 
-
+        #Entry infix
         entry = tk.Entry(self.frameDisplay, textvariable=self.entry_input1, font=("Arial", 20), justify="right", bg="#cccdcd")
         entry.grid(row=1, column=0, columnspan=4, sticky="we", padx=10, pady=2)
 
         #Entry postfix
-        entry = tk.Entry(self.frameDisplay, textvariable=self.entry_input2, font=("Arial", 20), justify="left", width=10, state="readonly", readonlybackground="#cccdcd")
-        entry.grid(row=3, column=0, sticky="we", padx=5, pady=2)
+        entry = tk.Entry(self.frameDisplay, textvariable=self.entry_input2, font=("Arial", 20), justify="right", state="readonly", readonlybackground="#cccdcd")
+        entry.grid(row=4, column=0, columnspan=4, sticky="we", padx=10, pady=2)
 
-        #Entry infix
-        entry = tk.Entry(self.frameDisplay, textvariable=self.entry_input3, font=("Arial", 20), justify="right", width=10, bg="#cccdcd")
-        entry.grid(row=3, column=1, sticky="we", padx=5, pady=2)
+        #Entry result
+        entry = tk.Entry(self.frameDisplay, textvariable=self.entry_input3, font=("Arial", 20), justify="right", bg="#cccdcd")
+        entry.grid(row=6, column=0, columnspan=4, sticky="we", padx=10, pady=2)
 
 
     def create_Teclado(self):
@@ -102,16 +104,23 @@ class Calculadora:
         if button_text == "=":
             try:
                 expression = self.entry_input1.get()
-                result = evaluate_postfix(expression)
+
+                infixtopostfix = infix_to_postfix(expression)
+
+                result = evaluate_postfix(infixtopostfix)
+
                 if result is not None:
-                    self.entry_input1.set(round(result, 4))
+                    self.entry_input3.set(round(result, 4))
+                    self.entry_input2.set(infixtopostfix)
                 else:
-                    messagebox.showerror("Error", "Expresión inválida")
+                    self.entry_input3.set("Error")
             except Exception as e:
                 messagebox.showerror("Error", f"Expresión inválida: {e}")
 
         elif button_text == "C":
             self.entry_input1.set("")
+            self.entry_input2.set("")
+            self.entry_input3.set("")
         elif button_text == "←":
             self.entry_input1.set(current_input[:-1])
         elif button_text == "Shift":
