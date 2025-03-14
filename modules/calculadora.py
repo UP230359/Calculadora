@@ -25,28 +25,28 @@ class Calculadora:
 
     def create_Display(self):
         self.label_shift = tk.Label(self.frameDisplay, text="", font=("Arial", 10), fg="#1c1c1c", bg="#cccdcd")
-        self.label_shift.grid(row=3, column=0, sticky="nw", padx=10, pady=5)
+        self.label_shift.grid(row=0, column=1, sticky="nw", padx=10, pady=2)
 
 
         self.label_infix = tk.Label(self.frameDisplay, text="Infix", font=("Arial", 10), fg="#1c1c1c", bg="#cccdcd")
-        self.label_infix.grid(row=0, column=0, sticky="nw", padx=10, pady=5)
+        self.label_infix.grid(row=0, column=0, sticky="nw", padx=10, pady=2)
 
         self.label_postfix = tk.Label(self.frameDisplay, text="Postfix", font=("Arial", 10), fg="#1c1c1c", bg="#cccdcd")
-        self.label_postfix.grid(row=0, column=1, sticky="nw", padx=10, pady=5)
+        self.label_postfix.grid(row=2, column=0, sticky="nw", padx=10, pady=2)
         
 
 
 
         entry = tk.Entry(self.frameDisplay, textvariable=self.entry_input1, font=("Arial", 20), justify="right", bg="#cccdcd")
-        entry.grid(row=4, column=0, columnspan=4, sticky="we", padx=10, pady=10)
+        entry.grid(row=1, column=0, columnspan=4, sticky="we", padx=10, pady=2)
 
         #Entry postfix
-        entry = tk.Entry(self.frameDisplay, textvariable=self.entry_input2, font=("Arial", 20), justify="left", width=10, bg="#cccdcd")
-        entry.grid(row=1, column=0, sticky="we", padx=5, pady=10)
+        entry = tk.Entry(self.frameDisplay, textvariable=self.entry_input2, font=("Arial", 20), justify="left", width=10, state="readonly", readonlybackground="#cccdcd")
+        entry.grid(row=3, column=0, sticky="we", padx=5, pady=2)
 
         #Entry infix
         entry = tk.Entry(self.frameDisplay, textvariable=self.entry_input3, font=("Arial", 20), justify="right", width=10, bg="#cccdcd")
-        entry.grid(row=1, column=1, sticky="we", padx=5, pady=10)
+        entry.grid(row=3, column=1, sticky="we", padx=5, pady=2)
 
 
     def create_Teclado(self):
