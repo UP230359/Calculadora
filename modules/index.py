@@ -24,16 +24,19 @@ def evaluate_postfix(expression):
             if token in {"+", "-", "*", "/", "^"}:
                 b, a = stack.pop(), stack.pop()
                 try:
-                    result = {
-                        "+": a + b,
-                        "-": a - b,
-                        "*": a * b,
-                        "/": a / b,
-                        "^": a ** b
-                    }[token]
-                    stack.push(result)
+                    if token == "+":
+                        result = a + b
+                    elif token == "-":
+                        result = a - b
+                    elif token == "*":
+                        result = a * b 
+                    elif token == "/":
+                        result = a / b
+                    elif token == "^":
+                        result = a ** b 
+                    stack.push(result)       
                 except Exception as e:
-                    print(f"Error performing operation {token}: {e}")
+                    print(f"Error performing operation {token} = {result}: {e}")
                     return None
             else:
                 x = stack.pop()
@@ -62,7 +65,7 @@ def evaluate_postfix(expression):
                     elif token == "atan":
                         result = math.degrees(math.atan(x))
                     elif token == "alog":
-                        result = 10 ** x
+                        result = math.pow(10, x)
                     elif token == "aln":
                         result = math.exp(x)
                     else:
