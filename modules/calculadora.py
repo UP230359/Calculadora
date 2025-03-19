@@ -1,7 +1,7 @@
 import tkinter as tk
+#from tkinter import messagebox
 from index import evaluate_postfix
 from infix_to_postfix import infix_to_postfix 
-import re
 
 class Calculadora:
     def __init__(self, root):
@@ -28,6 +28,7 @@ class Calculadora:
         self.label_shift = tk.Label(self.frameDisplay, text="", font=("Arial", 10), fg="#1c1c1c", bg="#cccdcd")
         self.label_shift.grid(row=0, column=1, sticky="nw", padx=10, pady=2)
 
+
         self.label_infix = tk.Label(self.frameDisplay, text="Infix", font=("Arial", 10), fg="#1c1c1c", bg="#cccdcd")
         self.label_infix.grid(row=0, column=0, sticky="nw", padx=10, pady=2)
 
@@ -37,22 +38,23 @@ class Calculadora:
         self.label_result = tk.Label(self.frameDisplay, text="Result", font=("Arial", 10), fg="#1c1c1c", bg="#cccdcd")
         self.label_result.grid(row=5, column=0, sticky="nw", padx=10, pady=2)
 
-        # Entry infix
+        #Entry infix
         entry = tk.Entry(self.frameDisplay, textvariable=self.entry_input1, font=("Arial", 20), justify="right", bg="#cccdcd")
         entry.grid(row=1, column=0, columnspan=4, sticky="we", padx=10, pady=2)
 
-        # Entry postfix
+        #Entry postfix
         entry = tk.Entry(self.frameDisplay, textvariable=self.entry_input2, font=("Arial", 20), justify="right", state="readonly", readonlybackground="#cccdcd")
         entry.grid(row=4, column=0, columnspan=4, sticky="we", padx=10, pady=2)
 
-        # Entry result
+        #Entry result
         entry = tk.Entry(self.frameDisplay, textvariable=self.entry_input3, font=("Arial", 20), justify="right", bg="#cccdcd")
         entry.grid(row=6, column=0, columnspan=4, sticky="we", padx=10, pady=2)
+
 
     def create_Teclado(self):
         buttons_funciones = [
             ('sen', 'cos', 'tan', '^', '√'),
-            ('ln', 'log', 'e', 'π', 'Shift')
+            ('ln', 'log','e', 'π', 'Shift')
         ]
         buttons_numeros_operadores = [
             ('7', '8', '9', '/', 'C'),
@@ -102,21 +104,18 @@ class Calculadora:
         if button_text == "=":
             try:
                 expression = self.entry_input1.get()
-                
-                # Asegurar que los números negativos se manejan correctamente
-                expression = re.sub(r'(?<!\d)-', '0-', expression)  # Agregar '0-' antes de negativos
-                
-                infixtopostfix = infix_to_postfix(expression)  # Convierte infijo a postfix
-                result = evaluate_postfix(infixtopostfix)  # Evaluación de la expresión en postfix
-                
+
+                infixtopostfix = infix_to_postfix(expression)
+
+                result = evaluate_postfix(expression)
+
                 if result is not None:
-                    self.entry_input3.set(round(result, 4))  # Limita el resultado a 4 decimales
-                    self.entry_input2.set(infixtopostfix)  # Muestra la notación postfix
+                    self.entry_input3.set(round(result, 4))
+                    self.entry_input2.set(infixtopostfix)
                 else:
                     self.entry_input3.set("Error")
-            except Exception as e: 
-                self.entry_input3.set(f"Expresión inválida:{e}") # Mostrar error detallado
-                print(f"Expresión inválida: {e}")
+            except Exception as e:
+                self.entry_input3.set("Error", f"Expresión inválida: {e}")
 
         elif button_text == "C":
             self.entry_input1.set("")
