@@ -62,7 +62,7 @@ class Calculadora:
         ]
         inversas = [
             'asin', 'acos', 'atan', '^2', '^(1/2)',
-            'aln', 'alog', '', '', ''
+            'aln', 'alog', '+/-', '', ''
         ]
 
         for i, row in enumerate(buttons_funciones):
@@ -131,7 +131,7 @@ class Calculadora:
             self.entry_input1.set(current_input + "aln(")
         elif button_text == "10^x":
             self.entry_input1.set(current_input + "alog(")
-        elif button_text in ['sen', 'cos', 'tan', 'ln', 'log', '√', '^']:
+        elif button_text in ['sen', 'cos', 'tan', 'ln', 'log', '√', 'e', '^']:
             if self.shift_mode:
                 if button_text == "sen":
                     self.entry_input1.set(current_input + "asin(")
@@ -147,6 +147,8 @@ class Calculadora:
                     self.entry_input1.set(current_input + "^2")
                 elif button_text == "√":
                     self.entry_input1.set(current_input + "^(1/2)")
+                elif button_text == "e":
+                    self.entry_input1.set(current_input + "-(")
                 self.shift_mode = False
                 self.actualizar_label_shift()
             else:
